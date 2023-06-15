@@ -1,0 +1,59 @@
+.title {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-align: center;
+}
+
+.sub-title {
+    font-weight: bold;
+    margin-left: 100px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.poll-container {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    width: 25%;
+    /* réduire la largeur du conteneur */
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    /* arrondir les bords */
+}
+
+.poll-container form {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+.poll-container form label {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    margin: 10px 0 5px;
+    font-weight: bold;
+}
+
+.poll-container form input[type="text"] {
+    padding: 10px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    /* arrondir les bords des champs de texte */
+}
+
+.poll-container form input[type="submit"] {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    /* arrondir les bords du bouton de soumission */
+    cursor: pointer;
+}
+
+.poll-container form input[type='submit']:hover {
+    background-color: rgb(44, 44, 248);
+}

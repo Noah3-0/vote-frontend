@@ -1,13 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>StrawPoll</title>
 </head>
+
 <body>
-    <h1>StrawPoll on ETH</h1>
-    
+    <h1 class="title">StrawPoll on ETH</h1>
+
+    <h2 class="sub-title">Create a new Poll</h2>
+    <div class="poll-container">
+        <h2>Create a Poll yes or no</h2>
+        <form id="pollForm">
+            <label for="question">Question:</label>
+            <input type="text" id="question" name="question" required>
+
+            <input type="submit" value="Create Poll">
+        </form>
+    </div>
+
+    <h2 class="sub-title">Active Poll</h2>
+
+    <h2 class="sub-title">Ended Poll</h2>
+
+
+
 </body>
+
 </html>

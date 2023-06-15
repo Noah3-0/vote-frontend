@@ -1,3 +1,23 @@
+#connectWalletButton {
+    position: fixed;
+    /* Fixe la position du bouton indépendamment du défilement de la page */
+    top: 20px;
+    /* Distance depuis le haut de la page */
+    right: 20px;
+    /* Distance depuis la droite de la page */
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#connectWalletButton:hover {
+    background-color: rgb(44, 44, 248);
+}
+
+
 .title {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     text-align: center;

@@ -11,11 +11,18 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    transition: top 0.3s ease;
+}
+
+#connectWalletButton.button-lowered {
+    top: 50px;
+    /* Adjust this value based on the height of your bandeau */
 }
 
 #connectWalletButton:hover {
     background-color: rgb(44, 44, 248);
 }
+
 
 
 .title {

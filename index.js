@@ -390,78 +390,44 @@ const abiJson = [
 ];
 let account;
 
-async function connectWallet() {
-  window.web3 = await new Web3(window.ethereum);
-  window.contract = await new window.web3.eth.Contract(
-    abiJson,
-    contractAddress
-  );
-
-  if (window.ethereum) {
-    try {
-      const accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
-      const account = accounts[0];
-      console.log(`Account connected: ${account}`);
-      connectBtn.innerHTML = "Connected";
-    } catch (error) {
-      console.error("User rejected request:", error);
-    }
-  } else {
-    console.log("MetaMask not detected");
-  }
-  if (window.ethereum) {
-    const networkId = await window.ethereum.request({
-      method: "net_version",
-    });
-    if (networkId == 421613) {
-      console.log("Connected to Arbitrum Goerli");
-    } else {
-      console.log("not connected");
-    }
-  }
-  if (window.ethereum) {
-    window.ethereum.on("accountsChanged", (accounts) => {
-      account = accounts[0];
-      console.log("Account changed. Now :", account);
-    });
-
-    window.ethereum.on("chainChanged", (chainId) => {
-      if (chainId == "421613") {
-        console.log("Same chain");
-      } else {
-        console.log("Chain changed");
-      }
-    });
-  } else {
-    console.error(
-      "MetaMask n'est pas détecté. Veuillez installer MetaMask pour continuer."
-    );
-  }
-}
-
 connectBtn.addEventListener("click", async () => {
   window.web3 = await new Web3(window.ethereum);
   window.contract = await new window.web3.eth.Contract(
     abiJson,
     contractAddress
   );
+  window.ethereum
+    .request({ method: "eth_requestAccounts" })
+    .then((accounts) => {
+      account = accounts[0];
+      console.log("Account connected:", account);
+    });
 
-  connectWallet();
+  if (window.ethereum) {
+    const networkId = await window.ethereum.request({
+      method: "net_version",
+    });
+    if (networkId == 421613) {
+      console.log("You are connected on Arbitrum Goerli");
+    } else {
+      console.log("You are not connected, pls switch to Arbitrum Goerli");
+    }
+  } else {
+    alert("install metamask");
+  }
 });
 
-questionForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  inputValue = inputQuestion.value;
+if (window.ethereum) {
+  window.ethereum.on("accountsChanged", (accounts) => {
+    account = accounts[0];
+    console.log("New account connected :", account);
+  });
 
-  const tx = await contract.methods.getPollCount().call();
-  console.log(tx);
-
-  //   await window.contract.methods
-  //     .createPoll(inputValue)
-  //     .send({ from: account, gas: 3000000 })
-  //     .on("transactionHash", function (hash) {
-  //       console.log(hash);
-  //     });
-});
+  window.ethereum.on("chainChanged", (chainId) => {
+    if (chainId == "0x66eed") {
+      console.log("You are connected on Arbitrum Goerli");
+    } else {
+      console.log("You are not connected, pls switch to Arbitrum Goerli");
+    }
+  });
+}

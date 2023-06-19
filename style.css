@@ -84,3 +84,48 @@
 .poll-container form input[type='submit']:hover {
     background-color: rgb(44, 44, 248);
 }
+
+.polls-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 30px;
+    padding: 20px;
+    min-width: 100%;
+}
+
+.poll-module {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    flex-basis: calc(25% - 30px);
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    text-align: center;
+}
+
+
+.poll-title {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.poll-options {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.poll-option {
+    padding: 12px 48px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.poll-option:hover {
+    background-color: rgb(44, 44, 248);
+}

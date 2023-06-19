@@ -1,6 +1,7 @@
 const connectWallet = document.getElementById("connectWalletButton");
 const submitPollBtn = document.getElementById("pollForm");
 const inputPollForm = document.getElementById("inputQuestion");
+const pollBox = document.getElementById("poll-box");
 
 let account;
 
@@ -399,6 +400,8 @@ connectWallet.addEventListener("click", async (e) => {
   window.web3 = await new Web3(window.ethereum);
   window.contract = await new window.web3.eth.Contract(ABI, Address);
   console.log("Connected to smart contract");
+
+  updatePoll();
 });
 
 submitPollBtn.addEventListener("submit", async (e) => {
@@ -413,3 +416,19 @@ submitPollBtn.addEventListener("submit", async (e) => {
       console.log(rec);
     });
 });
+
+async function updatePoll() {
+  const pollCount = await window.contract.methods.getPollCount().call();
+  for (let i = 0; i < pollCount; i++) {
+    const data = await window.contract.methods.getPoll(i).call();
+    pollBox.innerHTML += `
+    <div class="poll-module">
+    <h2 class="poll-title">${data.question}</h2>
+            <div class="poll-options">
+                <button class="poll-option">Yes</button>
+                <button class="poll-option">No</button>
+            </div>
+    </div>
+    `;
+  }
+}

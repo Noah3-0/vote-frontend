@@ -406,6 +406,7 @@ connectWallet.addEventListener("click", async (e) => {
 
 submitPollBtn.addEventListener("submit", async (e) => {
   e.preventDefault();
+  const pollCount = await window.contract.methods.getPollCount().call();
   await window.contract.methods
     .createPoll(inputPollForm.value)
     .send({ from: account, gas: 3000000 })
@@ -414,6 +415,17 @@ submitPollBtn.addEventListener("submit", async (e) => {
     })
     .on("receipt", async function (rec) {
       console.log(rec);
+
+      const data = await window.contract.methods.getPoll(pollCount).call();
+      pollBox.innerHTML += `
+          <div class="poll-module">
+          <h2 class="poll-title">${data.question}</h2>
+                  <div class="poll-options">
+                      <button class="poll-option">Yes</button>
+                      <button class="poll-option">No</button>
+                  </div>
+          </div>
+          `;
     });
 });
 

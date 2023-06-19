@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.0.1/web3.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <button id="connect-wallet">Connect wallet</button>
+    <button id="connect-contract">Connect Contract</button>
+    <button id="read-contract">Read Contract</button>
+    <button id="testSending">New poll</button>
+
+    <br>
+    <br>
+    <br>
+    <button id="connectWalletButton">Connect Wallet</button>
+
+    <h1 class="title">StrawPoll on ETH</h1>
+    <button id="getAdmins"><GetAdmins></GetAdmins></button>
+
+    <h2 class="sub-title">Create a new Poll</h2>
+    <div class="poll-container">
+        <h2>Create a Poll yes or no</h2>
+        <form id="pollForm">
+            <label for="question">Question:</label>
+            <input type="text" id="inputQuestion" name="question" required>
+
+            <input type="submit" value="Create Poll">
+        </form>
+    </div>
+
+    <h2 class="sub-title">Active Poll</h2>
+
+    <h2 class="sub-title">Ended Poll</h2>
+
+    <script src="index.js"></script>
+</body>
+</html>

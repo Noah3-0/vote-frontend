@@ -459,17 +459,65 @@ submitPollBtn.addEventListener("submit", async (e) => {
       console.log(rec);
 
       const data = await window.contract.methods.getPoll(pollCount).call();
-      pollBox.innerHTML += `
+      const newPollHtml = `
           <div class="poll-module">
           <h2 class="poll-title">${data.question}</h2>
-                  <div class="poll-options">
-                      <button class="poll-option">Yes</button>
-                      <button class="poll-option">No</button>
-                  </div>
+              <div class="poll-options">
+                  <button class="poll-option">Yes</button>
+                  <button class="poll-option">No</button>
+              </div>
           </div>
-          `;
+        `;
+
+      console.log(document.querySelectorAll(".poll-option"));
+      const pollElement = document.createElement("div");
+      pollElement.innerHTML = newPollHtml.trim();
+
+      const yesButton = pollElement.querySelector(".poll-option:first-child");
+      const noButton = pollElement.querySelector(".poll-option:last-child");
+
+      yesButton.addEventListener("click", async () => {
+        await window.contract.methods
+          .vote(pollCount, true)
+          .send({ from: account, gas: 3000000 })
+          .on("transactionHash", function (hash) {
+            console.log("Vote submitted: ", hash);
+          })
+          .on("receipt", function (receipt) {
+            console.log("Vote receipt: ", receipt);
+          });
+      });
+
+      noButton.addEventListener("click", async () => {
+        await window.contract.methods
+          .vote(pollCount, false)
+          .send({ from: account, gas: 3000000 })
+          .on("transactionHash", function (hash) {
+            console.log("Vote submitted: ", hash);
+          })
+          .on("receipt", function (receipt) {
+            console.log("Vote receipt: ", receipt);
+          });
+      });
+
+      pollBox.appendChild(pollElement.firstChild);
     });
 });
+
+async function vote(e) {
+  const pollIndex = e.target.getAttribute("data-poll-index");
+  const voteYes = e.target.getAttribute("data-vote") === "true";
+
+  await window.contract.methods
+    .vote(pollIndex, voteYes)
+    .send({ from: account, gas: 3000000 })
+    .on("transactionHash", function (hash) {
+      console.log("tx Hash :", hash);
+    })
+    .on("receipt", function (rec) {
+      console.log(rec);
+    });
+}
 
 async function updatePoll() {
   if (updatePollBool == false) {
@@ -477,14 +525,19 @@ async function updatePoll() {
     for (let i = 0; i < pollCount; i++) {
       const data = await window.contract.methods.getPoll(i).call();
       pollBox.innerHTML += `
-        <div class="poll-module">
-        <h2 class="poll-title">${data.question}</h2>
-                <div class="poll-options">
-                    <button class="poll-option">Yes</button>
-                    <button class="poll-option">No</button>
-                </div>
-        </div>
-        `;
+          <div class="poll-module">
+          <h2 class="poll-title">${data.question}</h2>
+                  <div class="poll-options">
+                      <button class="poll-option" data-poll-index="${i}" data-vote="true">Yes</button>
+                      <button class="poll-option" data-poll-index="${i}" data-vote="false">No</button>
+                  </div>
+          </div>
+          `;
+
+      let pollOptions = document.querySelectorAll(".poll-option");
+      pollOptions.forEach((option) => {
+        option.addEventListener("click", vote);
+      });
     }
     updatePollBool = true;
   } else {

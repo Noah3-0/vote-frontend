@@ -411,6 +411,10 @@ connectWallet.addEventListener("click", async (e) => {
     } else {
       warnBowOn();
       connectWallet.innerHTML = "Wrong network";
+      await ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: "0x66eed" }],
+      });
     }
   }
 });
@@ -433,6 +437,11 @@ if (window.ethereum) {
     } else {
       warnBowOn();
       connectWallet.innerHTML = "Wrong network";
+
+      await ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: "0x66eed" }],
+      });
     }
   });
 }

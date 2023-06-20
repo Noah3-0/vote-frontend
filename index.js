@@ -4,6 +4,7 @@ const inputPollForm = document.getElementById("inputQuestion");
 const pollBox = document.getElementById("poll-box");
 
 let account;
+let updatePollBool = false;
 
 const ABI = [
   {
@@ -412,6 +413,26 @@ connectWallet.addEventListener("click", async (e) => {
   }
 });
 
+if (window.ethereum) {
+  window.ethereum.on("accountsChanged", (accounts) => {
+    account = accounts[0];
+    console.log("Account changed. now: ", accounts[0]);
+  });
+
+  window.ethereum.on("chainChanged", async (chainId) => {
+    if (chainId == "0x66eed") {
+      connectWallet.innerHTML = "Connected";
+      window.web3 = await new Web3(window.ethereum);
+      window.contract = await new window.web3.eth.Contract(ABI, Address);
+      console.log("Connected to smart contract");
+
+      updatePoll();
+    } else {
+      connectWallet.innerHTML = "Wrong network";
+    }
+  });
+}
+
 submitPollBtn.addEventListener("submit", async (e) => {
   e.preventDefault();
   const pollCount = await window.contract.methods.getPollCount().call();
@@ -438,17 +459,22 @@ submitPollBtn.addEventListener("submit", async (e) => {
 });
 
 async function updatePoll() {
-  const pollCount = await window.contract.methods.getPollCount().call();
-  for (let i = 0; i < pollCount; i++) {
-    const data = await window.contract.methods.getPoll(i).call();
-    pollBox.innerHTML += `
-    <div class="poll-module">
-    <h2 class="poll-title">${data.question}</h2>
-            <div class="poll-options">
-                <button class="poll-option">Yes</button>
-                <button class="poll-option">No</button>
-            </div>
-    </div>
-    `;
+  if (updatePollBool == false) {
+    const pollCount = await window.contract.methods.getPollCount().call();
+    for (let i = 0; i < pollCount; i++) {
+      const data = await window.contract.methods.getPoll(i).call();
+      pollBox.innerHTML += `
+        <div class="poll-module">
+        <h2 class="poll-title">${data.question}</h2>
+                <div class="poll-options">
+                    <button class="poll-option">Yes</button>
+                    <button class="poll-option">No</button>
+                </div>
+        </div>
+        `;
+    }
+    updatePollBool = true;
+  } else {
+    console.log("Poll is update.");
   }
 }

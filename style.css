@@ -96,7 +96,7 @@
 
 .poll-module {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    flex-basis: calc(25% - 30px);
+    flex-basis: calc(25% - 70px);
     padding: 20px;
     border: 1px solid #ccc;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);

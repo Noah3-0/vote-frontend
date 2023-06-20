@@ -391,17 +391,25 @@ const Address = "0xf6ce67d3fe999777a1608ace8c4a8fe9f97860ef";
 
 connectWallet.addEventListener("click", async (e) => {
   e.preventDefault();
+
   if (window.ethereum !== "undefined") {
+    const networkId = await window.ethereum.request({
+      method: "net_version",
+    });
     const accounts = await ethereum.request({ method: "eth_requestAccounts" });
     account = accounts[0];
     console.log("Connected: ", account);
+    if (networkId == 421613) {
+      connectWallet.innerHTML = "Connected";
+      window.web3 = await new Web3(window.ethereum);
+      window.contract = await new window.web3.eth.Contract(ABI, Address);
+      console.log("Connected to smart contract");
+
+      updatePoll();
+    } else {
+      connectWallet.innerHTML = "Wrong network";
+    }
   }
-
-  window.web3 = await new Web3(window.ethereum);
-  window.contract = await new window.web3.eth.Contract(ABI, Address);
-  console.log("Connected to smart contract");
-
-  updatePoll();
 });
 
 submitPollBtn.addEventListener("submit", async (e) => {

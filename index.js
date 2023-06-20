@@ -406,8 +406,10 @@ connectWallet.addEventListener("click", async (e) => {
       window.contract = await new window.web3.eth.Contract(ABI, Address);
       console.log("Connected to smart contract");
 
+      warnBoxOff();
       updatePoll();
     } else {
+      warnBowOn();
       connectWallet.innerHTML = "Wrong network";
     }
   }
@@ -425,9 +427,11 @@ if (window.ethereum) {
       window.web3 = await new Web3(window.ethereum);
       window.contract = await new window.web3.eth.Contract(ABI, Address);
       console.log("Connected to smart contract");
+      warnBoxOff();
 
       updatePoll();
     } else {
+      warnBowOn();
       connectWallet.innerHTML = "Wrong network";
     }
   });
@@ -477,4 +481,13 @@ async function updatePoll() {
   } else {
     console.log("Poll is update.");
   }
+}
+
+function warnBowOn() {
+  const warnBox = document.getElementById("warn-box");
+  warnBox.classList.remove("hidden");
+}
+function warnBoxOff() {
+  const warnBox = document.getElementById("warn-box");
+  warnBox.classList.add("hidden");
 }

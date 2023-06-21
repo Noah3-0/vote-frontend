@@ -459,8 +459,10 @@ submitPollBtn.addEventListener("submit", async (e) => {
       console.log(rec);
 
       const data = await window.contract.methods.getPoll(pollCount).call();
+      const numberPollCount = Number(pollCount);
       const newPollHtml = `
           <div class="poll-module">
+          <div class="poll-number">${numberPollCount + 1}</div>
           <h2 class="poll-title">${data.question}</h2>
               <div class="poll-options">
                   <button class="poll-option">Yes</button>
@@ -526,6 +528,7 @@ async function updatePoll() {
       const data = await window.contract.methods.getPoll(i).call();
       pollBox.innerHTML += `
           <div class="poll-module">
+          <div class="poll-number">${i + 1}</div>
           <h2 class="poll-title">${data.question}</h2>
                   <div class="poll-options">
                       <button class="poll-option" data-poll-index="${i}" data-vote="true">Yes</button>

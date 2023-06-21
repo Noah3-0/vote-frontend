@@ -124,6 +124,7 @@ body {
 }
 
 .poll-module {
+    position: relative;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     flex-basis: calc(25% - 70px);
     padding: 20px;
@@ -133,6 +134,19 @@ body {
     text-align: center;
 }
 
+.poll-number {
+    position: absolute; 
+    top: 10px; 
+    left: 10px; 
+    padding: 5px 8px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: top 0.3s ease;
+    font-size: 14px;
+    font-weight: bold;
+}
 
 .poll-title {
     font-size: 20px;

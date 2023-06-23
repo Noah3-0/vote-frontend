@@ -2,6 +2,7 @@ const connectWallet = document.getElementById("connectWalletButton");
 const submitPollBtn = document.getElementById("pollForm");
 const inputPollForm = document.getElementById("inputQuestion");
 const pollBox = document.getElementById("poll-box");
+const txDisplay = document.getElementById("tx-display");
 
 let account;
 let updatePollBool = false;
@@ -454,9 +455,11 @@ submitPollBtn.addEventListener("submit", async (e) => {
     .send({ from: account, gas: 3000000 })
     .on("transactionHash", function (hash) {
       console.log("tx Hash :", hash);
+      txDisplay.innerHTML = `Tx pending: ${hash}`;
     })
     .on("receipt", async function (rec) {
       console.log(rec);
+      txDisplay.innerHTML = `Tx success: ${rec.transactionHash}`;
 
       const data = await window.contract.methods.getPoll(pollCount).call();
       const numberPollCount = Number(pollCount);
@@ -534,21 +537,21 @@ async function updatePoll() {
     for (let i = 0; i < pollCount; i++) {
       const data = await window.contract.methods.getPoll(i).call();
       pollBox.innerHTML += `
-          <div class="poll-module">
-          <div class="poll-number">${i + 1}</div>
-          <div class="close-button">&#10006;</div>
-          <h2 class="poll-title">${data.question}</h2>
-                  <div class="poll-options">
-                      <button class="poll-option" data-poll-index="${i}" data-vote="true">Yes</button>
-                      <button class="poll-option" data-poll-index="${i}" data-vote="false">No</button>
-                  </div>
-                  <div class="close-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <line x1="18" y1="6" x2="6" y2="18"></line>
-                      <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                    </div>
-          </div>
+      <div class="poll-module">
+      <div class="poll-number">${i + 1}</div>
+      <div class="close-button">&#10006;</div>
+      <h2 class="poll-title">${data.question}</h2>
+      <div class="poll-options">
+      <button class="poll-option" data-poll-index="${i}" data-vote="true">Yes</button>
+      <button class="poll-option" data-poll-index="${i}" data-vote="false">No</button>
+      </div>
+      <div class="close-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+      </div>
+      </div>
           `;
 
       let pollOptions = document.querySelectorAll(".poll-option");

@@ -1,5 +1,6 @@
 body {
     padding-top: 30px;
+    /* background-color: rgb(101, 101, 101); */
 }
 
 #warn-box {
@@ -52,6 +53,32 @@ body {
     background-color: rgb(44, 44, 248);
 }
 
+#accountBox {
+    position: absolute;
+    top: 29px;
+    right: 20px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    width: 25%;
+    padding: 16px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    background-color: #f0f0f0;
+}
+
+#account-display {
+    top: -15px;
+    text-align: center;
+}
+
+#accountAddress {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.hidden {
+    display: none;
+}
 
 
 .title {

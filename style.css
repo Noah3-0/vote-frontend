@@ -76,6 +76,10 @@ body {
     font-weight: bold;
 }
 
+#tx-display {
+    font-size: 10px;
+}
+
 .hidden {
     display: none;
 }

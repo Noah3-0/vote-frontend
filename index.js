@@ -454,12 +454,14 @@ submitPollBtn.addEventListener("submit", async (e) => {
     .createPoll(inputPollForm.value)
     .send({ from: account, gas: 3000000 })
     .on("transactionHash", function (hash) {
-      console.log("tx Hash :", hash);
-      txDisplay.innerHTML = `Tx pending: ${hash}`;
+      let shortHash = hash.slice(0, 6) + "...." + hash.slice(-6);
+      txDisplay.innerHTML = `Tx pending: ${shortHash}`;
     })
     .on("receipt", async function (rec) {
       console.log(rec);
-      txDisplay.innerHTML = `Tx success: ${rec.transactionHash}`;
+      let shortHash =
+        rec.transactionHash.slice(0, 5) + "..." + rec.transactionHash.slice(-5);
+      txDisplay.innerHTML = `Tx success: ${shortHash}`;
 
       const data = await window.contract.methods.getPoll(pollCount).call();
       const numberPollCount = Number(pollCount);
@@ -493,10 +495,15 @@ submitPollBtn.addEventListener("submit", async (e) => {
           .vote(pollCount, true)
           .send({ from: account, gas: 3000000 })
           .on("transactionHash", function (hash) {
-            console.log("Vote submitted: ", hash);
+            let shortHash = hash.slice(0, 6) + "...." + hash.slice(-6);
+            txDisplay.innerHTML + `In pending:, ${shortHash}`;
           })
           .on("receipt", function (receipt) {
-            console.log("Vote receipt: ", receipt);
+            let shortHash =
+              receipt.transactionHash.slice(0, 6) +
+              "..." +
+              receipt.transactionHash.slice(-6);
+            txDisplay.innerHTML + `Tx success: ${shortHash}`;
           });
       });
 
@@ -505,10 +512,15 @@ submitPollBtn.addEventListener("submit", async (e) => {
           .vote(pollCount, false)
           .send({ from: account, gas: 3000000 })
           .on("transactionHash", function (hash) {
-            console.log("Vote submitted: ", hash);
+            let shortHash = hash.slice(0, 6) + "...." + hash.slice(-6);
+            txDisplay.innerHTML + `In pending:, ${shortHash}`;
           })
           .on("receipt", function (receipt) {
-            console.log("Vote receipt: ", receipt);
+            let shortHash =
+              receipt.transactionHash.slice(0, 6) +
+              "..." +
+              receipt.transactionHash.slice(-6);
+            txDisplay.innerHTML + `Tx success: ${shortHash}`;
           });
       });
 
@@ -524,10 +536,15 @@ async function vote(e) {
     .vote(pollIndex, voteYes)
     .send({ from: account, gas: 3000000 })
     .on("transactionHash", function (hash) {
-      console.log("tx Hash :", hash);
+      let shortHash = hash.slice(0, 6) + "...." + hash.slice(-6);
+      txDisplay.innerHTML = `In pending:, ${shortHash}`;
+      txDisplay.style.color = "orange";
     })
     .on("receipt", function (rec) {
-      console.log(rec);
+      let shortHash =
+        rec.transactionHash.slice(0, 6) + "..." + rec.transactionHash.slice(-6);
+      txDisplay.innerHTML = `Tx success: ${shortHash}`;
+      txDisplay.style.color = "#32d932";
     });
 }
 

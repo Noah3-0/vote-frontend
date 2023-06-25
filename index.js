@@ -4,6 +4,7 @@ const inputPollForm = document.getElementById("inputQuestion");
 const pollBox = document.getElementById("poll-box");
 const txDisplay = document.getElementById("tx-display");
 const displayAccountAddress = document.getElementById("accountAddress");
+const accountBox = document.getElementById("accountBox");
 
 let account;
 let updatePollBool = false;
@@ -408,9 +409,9 @@ connectWallet.addEventListener("click", async (e) => {
       window.contract = await new window.web3.eth.Contract(ABI, Address);
       console.log("Connected to smart contract");
 
-      displayAccount();
       warnBoxOff();
       updatePoll();
+      addAccountBox();
     } else {
       warnBowOn();
       connectWallet.innerHTML = "Wrong network";
@@ -425,7 +426,7 @@ connectWallet.addEventListener("click", async (e) => {
 if (window.ethereum) {
   window.ethereum.on("accountsChanged", (accounts) => {
     account = accounts[0];
-    displayAccount();
+
     console.log("Account changed. now: ", accounts[0]);
   });
 
@@ -436,7 +437,6 @@ if (window.ethereum) {
       window.contract = await new window.web3.eth.Contract(ABI, Address);
       console.log("Connected to smart contract");
       warnBoxOff();
-
       updatePoll();
     } else {
       warnBowOn();
@@ -603,4 +603,8 @@ function displayAccount() {
     "href",
     `https://goerli.arbiscan.io/address/${account}`
   );
+}
+
+function addAccountBox() {
+  accountBox.classList.remove("hidden");
 }

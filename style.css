@@ -1,5 +1,6 @@
 body {
     padding-top: 30px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     /* background-color: rgb(101, 101, 101); */
 }
 
@@ -51,6 +52,11 @@ body {
 
 #connectWalletButton:hover {
     background-color: rgb(44, 44, 248);
+}
+
+#accountAddress {
+    font-weight: bold;
+    color: black;
 }
 
 #accountBox {

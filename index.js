@@ -3,6 +3,7 @@ const submitPollBtn = document.getElementById("pollForm");
 const inputPollForm = document.getElementById("inputQuestion");
 const pollBox = document.getElementById("poll-box");
 const txDisplay = document.getElementById("tx-display");
+const displayAccountAddress = document.getElementById("accountAddress");
 
 let account;
 let updatePollBool = false;
@@ -407,6 +408,7 @@ connectWallet.addEventListener("click", async (e) => {
       window.contract = await new window.web3.eth.Contract(ABI, Address);
       console.log("Connected to smart contract");
 
+      displayAccount();
       warnBoxOff();
       updatePoll();
     } else {
@@ -423,6 +425,7 @@ connectWallet.addEventListener("click", async (e) => {
 if (window.ethereum) {
   window.ethereum.on("accountsChanged", (accounts) => {
     account = accounts[0];
+    displayAccount();
     console.log("Account changed. now: ", accounts[0]);
   });
 
@@ -504,6 +507,7 @@ submitPollBtn.addEventListener("submit", async (e) => {
               "..." +
               receipt.transactionHash.slice(-6);
             txDisplay.innerHTML + `Tx success: ${shortHash}`;
+            txDisplay.style.color = "#32d932";
           });
       });
 
@@ -521,6 +525,7 @@ submitPollBtn.addEventListener("submit", async (e) => {
               "..." +
               receipt.transactionHash.slice(-6);
             txDisplay.innerHTML + `Tx success: ${shortHash}`;
+            txDisplay.style.color = "#32d932";
           });
       });
 
@@ -589,4 +594,13 @@ function warnBowOn() {
 function warnBoxOff() {
   const warnBox = document.getElementById("warn-box");
   warnBox.classList.add("hidden");
+}
+
+function displayAccount() {
+  displayAccountAddress.innerHTML =
+    account.slice(0, 5) + "..." + account.slice(-5);
+  displayAccountAddress.setAttribute(
+    "href",
+    `https://goerli.arbiscan.io/address/${account}`
+  );
 }

@@ -412,6 +412,7 @@ connectWallet.addEventListener("click", async (e) => {
       warnBoxOff();
       updatePoll();
       addAccountBox();
+      displayAccount();
     } else {
       warnBowOn();
       connectWallet.innerHTML = "Wrong network";
@@ -428,6 +429,7 @@ if (window.ethereum) {
     account = accounts[0];
 
     console.log("Account changed. now: ", accounts[0]);
+    displayAccount();
   });
 
   window.ethereum.on("chainChanged", async (chainId) => {

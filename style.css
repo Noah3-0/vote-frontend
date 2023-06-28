@@ -31,23 +31,14 @@ body {
 
 #connectWalletButton {
     position: fixed;
-    /* Fixe la position du bouton indépendamment du défilement de la page */
     top: 30px;
-    /* Distance depuis le haut de la page */
     right: 20px;
-    /* Distance depuis la droite de la page */
     padding: 10px 20px;
     background-color: #007BFF;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    transition: top 0.3s ease;
-}
-
-#connectWalletButton.button-lowered {
-    top: 50px;
-    /* Adjust this value based on the height of your bandeau */
 }
 
 #connectWalletButton:hover {
@@ -61,8 +52,8 @@ body {
 
 #accountBox {
     position: absolute;
-    top: 29px;
-    right: 20px;
+    top: 77px;
+    right: -12px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     width: 25%;
     padding: 16px;

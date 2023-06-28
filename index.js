@@ -552,6 +552,11 @@ async function vote(e) {
         rec.transactionHash.slice(0, 6) + "..." + rec.transactionHash.slice(-6);
       txDisplay.innerHTML = `Tx success: ${shortHash}`;
       txDisplay.style.color = "#32d932";
+    })
+    .on("error", function (error) {
+      console.log("Tx error.");
+      txDisplay.innerHTML = "Tx error.";
+      txDisplay.style.color = "red";
     });
 }
 

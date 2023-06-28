@@ -8,6 +8,7 @@ const accountBox = document.getElementById("accountBox");
 
 let account;
 let updatePollBool = false;
+let counterTx = 0;
 
 const ABI = [
   {
@@ -459,14 +460,19 @@ submitPollBtn.addEventListener("submit", async (e) => {
     .createPoll(inputPollForm.value)
     .send({ from: account, gas: 3000000 })
     .on("transactionHash", function (hash) {
+      counterTx++;
       let shortHash = hash.slice(0, 6) + "...." + hash.slice(-6);
-      txDisplay.innerHTML = `Tx pending: ${shortHash}`;
+      txDisplay.innerHTML += `<div id="tx-${counterTx}">TESTTTTT In pending: ${shortHash}</div>`;
+      const txNumber = document.getElementById(`tx-${counterTx}`);
+      txNumber.style.color = "orange";
     })
     .on("receipt", async function (rec) {
-      console.log(rec);
       let shortHash =
-        rec.transactionHash.slice(0, 5) + "..." + rec.transactionHash.slice(-5);
-      txDisplay.innerHTML = `Tx success: ${shortHash}`;
+        rec.transactionHash.slice(0, 6) + "..." + rec.transactionHash.slice(-6);
+      const txNumber = document.getElementById(`tx-${counterTx}`);
+      console.log(txNumber);
+      txNumber.innerHTML = `Tx success: ${shortHash}`;
+      txNumber.style.color = "green";
 
       const data = await window.contract.methods.getPoll(pollCount).call();
       const numberPollCount = Number(pollCount);
@@ -500,16 +506,26 @@ submitPollBtn.addEventListener("submit", async (e) => {
           .vote(pollCount, true)
           .send({ from: account, gas: 3000000 })
           .on("transactionHash", function (hash) {
+            counterTx++;
             let shortHash = hash.slice(0, 6) + "...." + hash.slice(-6);
-            txDisplay.innerHTML + `In pending:, ${shortHash}`;
+            txDisplay.innerHTML += `<div id="tx-${counterTx}">TESTTTTT In pending: ${shortHash}</div>`;
+            const txNumber = document.getElementById(`tx-${counterTx}`);
+            txNumber.style.color = "orange";
           })
-          .on("receipt", function (receipt) {
+          .on("receipt", function (rec) {
             let shortHash =
-              receipt.transactionHash.slice(0, 6) +
+              rec.transactionHash.slice(0, 6) +
               "..." +
-              receipt.transactionHash.slice(-6);
-            txDisplay.innerHTML + `Tx success: ${shortHash}`;
-            txDisplay.style.color = "#32d932";
+              rec.transactionHash.slice(-6);
+            const txNumber = document.getElementById(`tx-${counterTx}`);
+            console.log(txNumber);
+            txNumber.innerHTML = `Tx success: ${shortHash}`;
+            txNumber.style.color = "green";
+          })
+          .on("error", function (error) {
+            const txNumber = document.getElementById(`tx-${counterTx}`);
+            txNumber.innerHTML = "Tx error";
+            txNumber.style.color = "red";
           });
       });
 
@@ -518,20 +534,35 @@ submitPollBtn.addEventListener("submit", async (e) => {
           .vote(pollCount, false)
           .send({ from: account, gas: 3000000 })
           .on("transactionHash", function (hash) {
+            counterTx++;
             let shortHash = hash.slice(0, 6) + "...." + hash.slice(-6);
-            txDisplay.innerHTML + `In pending:, ${shortHash}`;
+            txDisplay.innerHTML += `<div id="tx-${counterTx}">TESTTTTT In pending: ${shortHash}</div>`;
+            const txNumber = document.getElementById(`tx-${counterTx}`);
+            txNumber.style.color = "orange";
           })
-          .on("receipt", function (receipt) {
+          .on("receipt", function (rec) {
             let shortHash =
-              receipt.transactionHash.slice(0, 6) +
+              rec.transactionHash.slice(0, 6) +
               "..." +
-              receipt.transactionHash.slice(-6);
-            txDisplay.innerHTML + `Tx success: ${shortHash}`;
-            txDisplay.style.color = "#32d932";
+              rec.transactionHash.slice(-6);
+            const txNumber = document.getElementById(`tx-${counterTx}`);
+            console.log(txNumber);
+            txNumber.innerHTML = `Tx success: ${shortHash}`;
+            txNumber.style.color = "green";
+          })
+          .on("error", function (error) {
+            const txNumber = document.getElementById(`tx-${counterTx}`);
+            txNumber.innerHTML = "Tx error";
+            txNumber.style.color = "red";
           });
       });
 
       pollBox.appendChild(pollElement.firstChild);
+    })
+    .on("error", function (error) {
+      const txNumber = document.getElementById(`tx-${counterTx}`);
+      txNumber.innerHTML = "Tx error";
+      txNumber.style.color = "red";
     });
 });
 
@@ -543,20 +574,24 @@ async function vote(e) {
     .vote(pollIndex, voteYes)
     .send({ from: account, gas: 3000000 })
     .on("transactionHash", function (hash) {
+      counterTx++;
       let shortHash = hash.slice(0, 6) + "...." + hash.slice(-6);
-      txDisplay.innerHTML = `In pending:, ${shortHash}`;
-      txDisplay.style.color = "orange";
+      txDisplay.innerHTML += `<div id="tx-${counterTx}">TESTTTTT In pending: ${shortHash}</div>`;
+      const txNumber = document.getElementById(`tx-${counterTx}`);
+      txNumber.style.color = "orange";
     })
     .on("receipt", function (rec) {
       let shortHash =
         rec.transactionHash.slice(0, 6) + "..." + rec.transactionHash.slice(-6);
-      txDisplay.innerHTML = `Tx success: ${shortHash}`;
-      txDisplay.style.color = "#32d932";
+      const txNumber = document.getElementById(`tx-${counterTx}`);
+      console.log(txNumber);
+      txNumber.innerHTML = `Tx success: ${shortHash}`;
+      txNumber.style.color = "green";
     })
     .on("error", function (error) {
-      console.log("Tx error.");
-      txDisplay.innerHTML = "Tx error.";
-      txDisplay.style.color = "red";
+      const txNumber = document.getElementById(`tx-${counterTx}`);
+      txNumber.innerHTML = "Tx error";
+      txNumber.style.color = "red";
     });
 }
 

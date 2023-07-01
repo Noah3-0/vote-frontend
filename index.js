@@ -498,14 +498,6 @@ submitPollBtn.addEventListener("submit", async (e) => {
       const pollElement = document.createElement("div");
       pollElement.innerHTML = newPollHtml.trim();
 
-      const closeBtn = document.querySelectorAll(".close-button");
-
-      console.log(closeBtn);
-
-      closeBtn.addEventListener("click", async () => {
-        console.log("hello!");
-      });
-
       const yesButton = pollElement.querySelector(".poll-option:first-child");
       const noButton = pollElement.querySelector(".poll-option:last-child");
 

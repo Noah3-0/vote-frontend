@@ -501,6 +501,13 @@ submitPollBtn.addEventListener("submit", async (e) => {
       const yesButton = pollElement.querySelector(".poll-option:first-child");
       const noButton = pollElement.querySelector(".poll-option:last-child");
 
+      const closeButton = pollElement.querySelector(".close-button");
+
+      closeButton.addEventListener("click", async () => {
+        console.log("Close button clicked!");
+        // Votre code ici
+      });
+
       yesButton.addEventListener("click", async () => {
         await window.contract.methods
           .vote(pollCount, true)
@@ -602,25 +609,34 @@ async function updatePoll() {
       const data = await window.contract.methods.getPoll(i).call();
       pollBox.innerHTML += `
       <div class="poll-module">
-      <div class="poll-number">${i + 1}</div>
-      <div class="close-button">&#10006;</div>
-      <h2 class="poll-title">${data.question}</h2>
-      <div class="poll-options">
-      <button class="poll-option" data-poll-index="${i}" data-vote="true">Yes</button>
-      <button class="poll-option" data-poll-index="${i}" data-vote="false">No</button>
-      </div>
-      <div class="close-button">
+    <div class="poll-number">${i + 1}</div>
+    <div class="close-button">&#10006;</div>
+    <h2 class="poll-title">${data.question}</h2>
+    <div class="poll-options">
+    <button class="poll-option" data-poll-index="${i}" data-vote="true">Yes</button>
+    <button class="poll-option" data-poll-index="${i}" data-vote="false">No</button>
+    </div>
+    <div class="close-button close-poll" data-poll-index="${i}">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <line x1="18" y1="6" x2="6" y2="18"></line>
         <line x1="6" y1="6" x2="18" y2="18"></line>
-      </svg>
-      </div>
-      </div>
+        </svg>
+    </div>
+</div>
           `;
 
       let pollOptions = document.querySelectorAll(".poll-option");
       pollOptions.forEach((option) => {
         option.addEventListener("click", vote);
+      });
+
+      let closeButtons = document.querySelectorAll(".close-poll");
+
+      closeButtons.forEach((button) => {
+        button.addEventListener("click", async (e) => {
+          const pollIndex = e.currentTarget.getAttribute("data-poll-index");
+          console.log(`Close button for poll ${pollIndex} clicked!`);
+        });
       });
     }
     updatePollBool = true;
@@ -650,3 +666,10 @@ function displayAccount() {
 function addAccountBox() {
   accountBox.classList.remove("hidden");
 }
+
+// const closeBtn = document.getElementById("closebtn");
+// console.log(closeBtn);
+
+// closeBtn.addEventListener("click", () => {
+//   console.log("Hello");
+// });

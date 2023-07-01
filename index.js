@@ -503,9 +503,15 @@ submitPollBtn.addEventListener("submit", async (e) => {
 
       const closeButton = pollElement.querySelector(".close-button");
 
-      closeButton.addEventListener("click", async () => {
-        console.log("Close button clicked!");
-        // Votre code ici
+      const closeButtons = document.querySelectorAll(".close-button");
+
+      closeButtons.forEach((button) => {
+        button.addEventListener("click", async (e) => {
+          const pollIndex = e.target
+            .closest(".poll-module")
+            .querySelector(".poll-number").textContent;
+          console.log(`Close button for poll ${pollIndex} clicked!`);
+        });
       });
 
       yesButton.addEventListener("click", async () => {

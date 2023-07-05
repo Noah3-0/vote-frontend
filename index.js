@@ -392,7 +392,7 @@ const ABI = [
     type: "function",
   },
 ];
-const Address = "0xf6ce67d3fe999777a1608ace8c4a8fe9f97860ef";
+const Address = "0x84640b3fE2Cd8f3Bd231bCc0F88f2A7c7f0F5Eb1";
 
 connectWallet.addEventListener("click", async (e) => {
   e.preventDefault();
@@ -501,15 +501,13 @@ submitPollBtn.addEventListener("submit", async (e) => {
       const yesButton = pollElement.querySelector(".poll-option:first-child");
       const noButton = pollElement.querySelector(".poll-option:last-child");
 
-      const closeButton = pollElement.querySelector(".close-button");
-
       const closeButtons = document.querySelectorAll(".close-button");
 
       closeButtons.forEach((button) => {
         button.addEventListener("click", async (e) => {
-          const pollIndex = e.target
-            .closest(".poll-module")
-            .querySelector(".poll-number").textContent;
+          const pollIndex =
+            e.target.closest(".poll-module").querySelector(".poll-number")
+              .textContent - 1;
           console.log(`Close button for poll ${pollIndex} clicked!`);
         });
       });
@@ -640,8 +638,21 @@ async function updatePoll() {
 
       closeButtons.forEach((button) => {
         button.addEventListener("click", async (e) => {
-          const pollIndex = e.currentTarget.getAttribute("data-poll-index");
+          let pollIndex = e.currentTarget.getAttribute("data-poll-index");
+          let pollIndexNumber = parseInt(pollIndex);
           console.log(`Close button for poll ${pollIndex} clicked!`);
+          await window.contract.methods
+            .closeMultiplePoll(0)
+            .send({ from: account, gas: 3000000 })
+            .on("transactionHash", function (hash) {
+              console.log("Close tx hash : ", hash);
+            })
+            .on("receipt", function (rec) {
+              console.log("tx success");
+            })
+            .on("error", function (error) {
+              console.log("tx error: ", error);
+            });
         });
       });
     }

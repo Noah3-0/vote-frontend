@@ -606,6 +606,24 @@ async function vote(e) {
     });
 }
 
+async function closePoll(e) {
+  let pollIndex = e.currentTarget.getAttribute("data-poll-index");
+  let pollIndexNumber = parseInt(pollIndex);
+  console.log(`Close button for poll ${pollIndex} clicked!`);
+  await window.contract.methods
+    .closeMultiplePoll(pollIndexNumber)
+    .send({ from: account, gas: 3000000 })
+    .on("transactionHash", function (hash) {
+      console.log("Close tx hash : ", hash);
+    })
+    .on("receipt", function (rec) {
+      console.log("tx success");
+    })
+    .on("error", function (error) {
+      console.log("tx error: ", error);
+    });
+}
+
 async function updatePoll() {
   if (updatePollBool == false) {
     const pollCount = await window.contract.methods.getPollCount().call();
@@ -637,23 +655,7 @@ async function updatePoll() {
       let closeButtons = document.querySelectorAll(".close-poll");
 
       closeButtons.forEach((button) => {
-        button.addEventListener("click", async (e) => {
-          let pollIndex = e.currentTarget.getAttribute("data-poll-index");
-          let pollIndexNumber = parseInt(pollIndex);
-          console.log(`Close button for poll ${pollIndex} clicked!`);
-          await window.contract.methods
-            .closeMultiplePoll(0)
-            .send({ from: account, gas: 3000000 })
-            .on("transactionHash", function (hash) {
-              console.log("Close tx hash : ", hash);
-            })
-            .on("receipt", function (rec) {
-              console.log("tx success");
-            })
-            .on("error", function (error) {
-              console.log("tx error: ", error);
-            });
-        });
+        button.addEventListener("click", closePoll);
       });
     }
     updatePollBool = true;

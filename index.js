@@ -469,40 +469,31 @@ submitPollBtn.addEventListener("submit", async (e) => {
       const data = await window.contract.methods.getPoll(pollCount).call();
       const numberPollCount = Number(pollCount);
       const newPollHtml = `
-          <div class="poll-module">
-          <div class="poll-number">${numberPollCount + 1}</div>
-          <div class="close-button">&#10006;</div>
-          <h2 class="poll-title">${data.question}</h2>
-              <div class="poll-options">
-                  <button class="poll-option">Yes</button>
-                  <button class="poll-option">No</button>
-              </div>
-              <div class="close-button" id="closebtn">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
-              </div>
-          </div>
+  <div class="poll-module">
+  <div class="poll-number">${numberPollCount + 1}</div>
+  <div class="close-button">&#10006;</div>
+  <h2 class="poll-title">${data.question}</h2>
+      <div class="poll-options">
+          <button class="poll-option">Yes</button>
+          <button class="poll-option">No</button>
+      </div>
+      <div class="close-button" id="closebtn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+        </div>
+        </div>
         `;
 
-      console.log(document.querySelectorAll(".poll-option"));
       const pollElement = document.createElement("div");
       pollElement.innerHTML = newPollHtml.trim();
 
+      pollBox.appendChild(pollElement);
+
       const yesButton = pollElement.querySelector(".poll-option:first-child");
       const noButton = pollElement.querySelector(".poll-option:last-child");
-
-      const closeButtons = document.querySelectorAll(".close-button");
-
-      closeButtons.forEach((button) => {
-        button.addEventListener("click", async (e) => {
-          const pollIndex =
-            e.target.closest(".poll-module").querySelector(".poll-number")
-              .textContent - 1;
-          console.log(`Close button for poll ${pollIndex} clicked!`);
-        });
-      });
+      const closeButton = pollElement.querySelector(".close-button");
 
       yesButton.addEventListener("click", async () => {
         await window.contract.methods
@@ -534,11 +525,48 @@ submitPollBtn.addEventListener("submit", async (e) => {
           });
       });
 
-      pollBox.appendChild(pollElement.firstChild);
+      closeButton.addEventListener("click", async (e) => {
+        console.log("click");
+        const pollIndex =
+          e.target.closest(".poll-module").querySelector(".poll-number")
+            .textContent - 1;
+        await window.contract.methods
+          .closePoll(pollIndex)
+          .send({ from: account, gas: gasPrice })
+          .on("transactionHash", function (hash) {
+            addTxPending(hash);
+          })
+          .on("receipt", function (rec) {
+            addTxSuccess(rec);
+          })
+          .on("error", function (error) {
+            addTxError(error);
+          });
+      });
     })
     .on("error", function (error) {
       addTxError(error);
     });
+});
+
+pollBox.addEventListener("click", async (e) => {
+  if (e.target.closest(".close-button")) {
+    const pollIndex =
+      e.target.closest(".poll-module").querySelector(".poll-number")
+        .textContent - 1;
+    await window.contract.methods
+      .closePoll(pollIndex)
+      .send({ from: account, gas: gasPrice })
+      .on("transactionHash", function (hash) {
+        addTxPending(hash);
+      })
+      .on("receipt", function (rec) {
+        addTxSuccess(rec);
+      })
+      .on("error", function (error) {
+        addTxError(error);
+      });
+  }
 });
 
 async function vote(e) {

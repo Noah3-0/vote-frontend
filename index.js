@@ -392,7 +392,7 @@ const ABI = [
     type: "function",
   },
 ];
-const Address = "0x84640b3fE2Cd8f3Bd231bCc0F88f2A7c7f0F5Eb1";
+const Address = "0x3DCe863Fa5fAEC626887e6f7Edc7000f5cF059a2";
 
 connectWallet.addEventListener("click", async (e) => {
   e.preventDefault();
@@ -611,16 +611,27 @@ async function closePoll(e) {
   let pollIndexNumber = parseInt(pollIndex);
   console.log(`Close button for poll ${pollIndex} clicked!`);
   await window.contract.methods
-    .closeMultiplePoll(pollIndexNumber)
+    .closePoll(pollIndexNumber)
     .send({ from: account, gas: 3000000 })
     .on("transactionHash", function (hash) {
-      console.log("Close tx hash : ", hash);
+      counterTx++;
+      let shortHash = hash.slice(0, 6) + "...." + hash.slice(-6);
+      txDisplay.innerHTML += `<div id="tx-${counterTx}">In pending: ${shortHash}</div>`;
+      const txNumber = document.getElementById(`tx-${counterTx}`);
+      txNumber.style.color = "orange";
     })
     .on("receipt", function (rec) {
-      console.log("tx success");
+      let shortHash =
+        rec.transactionHash.slice(0, 6) + "..." + rec.transactionHash.slice(-6);
+      const txNumber = document.getElementById(`tx-${counterTx}`);
+      console.log(txNumber);
+      txNumber.innerHTML = `Tx success: ${shortHash}`;
+      txNumber.style.color = "green";
     })
     .on("error", function (error) {
-      console.log("tx error: ", error);
+      const txNumber = document.getElementById(`tx-${counterTx}`);
+      txNumber.innerHTML = "Tx error";
+      txNumber.style.color = "red";
     });
 }
 
@@ -685,10 +696,3 @@ function displayAccount() {
 function addAccountBox() {
   accountBox.classList.remove("hidden");
 }
-
-// const closeBtn = document.getElementById("closebtn");
-// console.log(closeBtn);
-
-// closeBtn.addEventListener("click", () => {
-//   console.log("Hello");
-// });

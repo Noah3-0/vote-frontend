@@ -9,6 +9,7 @@ const accountBox = document.getElementById("accountBox");
 let account;
 let updatePollBool = false;
 let counterTx = 0;
+let gasPrice = 30000000;
 
 const ABI = [
   {
@@ -458,7 +459,7 @@ submitPollBtn.addEventListener("submit", async (e) => {
   const pollCount = await window.contract.methods.getPollCount().call();
   await window.contract.methods
     .createPoll(inputPollForm.value)
-    .send({ from: account, gas: 3000000 })
+    .send({ from: account, gas: gasPrice })
     .on("transactionHash", function (hash) {
       addTxPending(hash);
     })
@@ -506,7 +507,7 @@ submitPollBtn.addEventListener("submit", async (e) => {
       yesButton.addEventListener("click", async () => {
         await window.contract.methods
           .vote(pollCount, true)
-          .send({ from: account, gas: 3000000 })
+          .send({ from: account, gas: gasPrice })
           .on("transactionHash", function (hash) {
             addTxPending(hash);
           })
@@ -521,7 +522,7 @@ submitPollBtn.addEventListener("submit", async (e) => {
       noButton.addEventListener("click", async () => {
         await window.contract.methods
           .vote(pollCount, false)
-          .send({ from: account, gas: 3000000 })
+          .send({ from: account, gas: gasPrice })
           .on("transactionHash", function (hash) {
             addTxPending(hash);
           })
@@ -546,7 +547,7 @@ async function vote(e) {
 
   await window.contract.methods
     .vote(pollIndex, voteYes)
-    .send({ from: account, gas: 3000000 })
+    .send({ from: account, gas: gasPrice })
     .on("transactionHash", function (hash) {
       addTxPending(hash);
     })
@@ -564,7 +565,7 @@ async function closePoll(e) {
   console.log(`Close button for poll ${pollIndex} clicked!`);
   await window.contract.methods
     .closePoll(pollIndexNumber)
-    .send({ from: account, gas: 3000000 })
+    .send({ from: account, gas: gasPrice })
     .on("transactionHash", function (hash) {
       addTxPending(hash);
     })

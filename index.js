@@ -543,6 +543,15 @@ pollBox.addEventListener("click", async (e) => {
       })
       .on("receipt", function (rec) {
         addTxSuccess(rec);
+        let button = document.querySelector(
+          `button[data-poll-index="${pollIndex}"]`
+        );
+        if (button) {
+          let div = button.closest(".poll-module");
+          if (div) {
+            div.remove();
+          }
+        }
       })
       .on("error", function (error) {
         addTxError(error);

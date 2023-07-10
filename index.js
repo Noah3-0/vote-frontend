@@ -541,7 +541,7 @@ pollBox.addEventListener("click", async (e) => {
       .on("transactionHash", function (hash) {
         addTxPending(hash);
       })
-      .on("receipt", function (rec) {
+      .on("receipt", async function (rec) {
         addTxSuccess(rec);
         let button = document.querySelector(
           `button[data-poll-index="${pollIndex}"]`
@@ -550,6 +550,23 @@ pollBox.addEventListener("click", async (e) => {
           let div = button.closest(".poll-module");
           if (div) {
             div.remove();
+            const data = await window.contract.methods
+              .getPoll(pollIndex)
+              .call();
+            let yesNumber = parseInt(data.yesVotes, 10);
+            let noNumber = parseInt(data.noVotes, 10);
+
+            closePollBox.innerHTML += `
+            <div class="poll-module">
+              <div class="poll-number">${pollIndex + 1}</div>
+                <h2 class="poll-title">${data.question}</h2>
+                <div class="poll-options">
+                <div class="poll-option">Yes ${yesNumber}</div>
+                <div class="poll-option">No ${noNumber}</div>
+              </div>
+            <div></div>
+            </div>
+        `;
           }
         }
       })

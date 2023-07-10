@@ -470,7 +470,7 @@ submitPollBtn.addEventListener("submit", async (e) => {
       const data = await window.contract.methods.getPoll(pollCount).call();
       const numberPollCount = Number(pollCount);
       const newPollHtml = `
-  <div class="poll-module">
+        <div class="poll-module">
   <div class="poll-number">${numberPollCount + 1}</div>
   <div class="close-button">&#10006;</div>
   <h2 class="poll-title">${data.question}</h2>
@@ -494,7 +494,6 @@ submitPollBtn.addEventListener("submit", async (e) => {
 
       const yesButton = pollElement.querySelector(".poll-option:first-child");
       const noButton = pollElement.querySelector(".poll-option:last-child");
-      const closeButton = pollElement.querySelector(".close-button");
 
       yesButton.addEventListener("click", async () => {
         await window.contract.methods
@@ -598,21 +597,17 @@ async function updatePoll() {
           option.addEventListener("click", vote);
         });
       } else {
+        let yesNumber = parseInt(data.yesVotes, 10);
+        let noNumber = parseInt(data.noVotes, 10);
         closePollBox.innerHTML += `
         <div class="poll-module">
         <div class="poll-number">${i + 1}</div>
-        <div class="close-button">&#10006;</div>
         <h2 class="poll-title">${data.question}</h2>
         <div class="poll-options">
-        <button class="poll-option" data-poll-index="${i}" data-vote="true">Yes</button>
-        <button class="poll-option" data-poll-index="${i}" data-vote="false">No</button>
+        <div class="poll-option">Yes ${yesNumber}</div>
+        <div class="poll-option">No ${noNumber}</div>
         </div>
-        <div class="close-button close-poll" data-poll-index="${i}">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="18" y1="6" x2="6" y2="18"></line>
-        <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-        </div>
+        <div></div>
         </div>
         `;
       }

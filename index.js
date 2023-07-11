@@ -471,19 +471,19 @@ submitPollBtn.addEventListener("submit", async (e) => {
       const numberPollCount = Number(pollCount);
       const newPollHtml = `
         <div class="poll-module">
-  <div class="poll-number">${numberPollCount + 1}</div>
-  <div class="close-button">&#10006;</div>
-  <h2 class="poll-title">${data.question}</h2>
-      <div class="poll-options">
-          <button class="poll-option">Yes</button>
-          <button class="poll-option">No</button>
-      </div>
-      <div class="close-button" id="closebtn">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="18" y1="6" x2="6" y2="18"></line>
-        <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-        </div>
+          <div class="poll-number">${numberPollCount + 1}</div>
+          <div class="close-button">&#10006;</div>
+          <h2 class="poll-title">${data.question}</h2>
+            <div class="poll-options">
+              <button class="poll-option">Yes</button>
+              <button class="poll-option">No</button>
+            </div>
+          <div class="close-button" id="closebtn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+          </div>
         </div>
         `;
 
@@ -602,19 +602,19 @@ async function updatePoll() {
       if (data.togglePoll == true) {
         pollBox.innerHTML += `
         <div class="poll-module">
-        <div class="poll-number">${i + 1}</div>
-        <div class="close-button">&#10006;</div>
-        <h2 class="poll-title">${data.question}</h2>
-        <div class="poll-options">
-        <button class="poll-option" data-poll-index="${i}" data-vote="true">Yes</button>
-        <button class="poll-option" data-poll-index="${i}" data-vote="false">No</button>
-        </div>
-        <div class="close-button close-poll" data-poll-index="${i}">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="18" y1="6" x2="6" y2="18"></line>
-        <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-        </div>
+          <div class="poll-number">${i + 1}</div>
+          <div class="close-button">&#10006;</div>
+          <h2 class="poll-title">${data.question}</h2>
+            <div class="poll-options">
+              <button class="poll-option" data-poll-index="${i}" data-vote="true">Yes</button>
+              <button class="poll-option" data-poll-index="${i}" data-vote="false">No</button>
+            </div>
+          <div class="close-button close-poll" data-poll-index="${i}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </div>
         </div>
         `;
 
@@ -627,13 +627,13 @@ async function updatePoll() {
         let noNumber = parseInt(data.noVotes, 10);
         closePollBox.innerHTML += `
         <div class="poll-module">
-        <div class="poll-number">${i + 1}</div>
-        <h2 class="poll-title">${data.question}</h2>
-        <div class="poll-options">
-        <div class="poll-option">Yes ${yesNumber}</div>
-        <div class="poll-option">No ${noNumber}</div>
-        </div>
-        <div></div>
+          <div class="poll-number">${i + 1}</div>
+          <h2 class="poll-title">${data.question}</h2>
+          <div class="poll-options">
+            <div class="poll-option">Yes ${yesNumber}</div>
+            <div class="poll-option">No ${noNumber}</div>
+          </div>
+          <div></div>
         </div>
         `;
       }
@@ -669,7 +669,7 @@ function addAccountBox() {
 function addTxPending(hash) {
   counterTx++;
   let shortHash = hash.slice(0, 6) + "...." + hash.slice(-6);
-  txDisplay.innerHTML += `<div id="tx-${counterTx}">In pending: ${shortHash}</div>`;
+  txDisplay.innerHTML += `<div id="tx-${counterTx}">In pending: <a href="https://goerli.arbiscan.io/tx/${hash}">${shortHash}</a></div>`;
   const txNumber = document.getElementById(`tx-${counterTx}`);
   txNumber.style.color = "orange";
 }
@@ -679,7 +679,7 @@ function addTxSuccess(rec) {
     rec.transactionHash.slice(0, 6) + "..." + rec.transactionHash.slice(-6);
   const txNumber = document.getElementById(`tx-${counterTx}`);
   console.log(txNumber);
-  txNumber.innerHTML = `Tx success: ${shortHash}`;
+  txNumber.innerHTML = `Tx success: <a href="https://goerli.arbiscan.io/tx/${rec.transactionHash}">${shortHash}</a>`;
   txNumber.style.color = "green";
 }
 

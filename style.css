@@ -50,6 +50,15 @@ body {
     color: black;
 }
 
+a {
+    color: inherit;
+    font-weight: bold;
+}
+
+a:hover {
+    color: inherit;
+}
+
 #accountBox {
     position: absolute;
     top: 77px;

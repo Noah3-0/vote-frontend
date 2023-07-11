@@ -440,7 +440,7 @@ if (window.ethereum) {
       connectWallet.innerHTML = "Connected";
       window.web3 = await new Web3(window.ethereum);
       window.contract = await new window.web3.eth.Contract(ABI, Address);
-      console.log("Connected to smart contract");
+      console.log("Connected to smart contract.");
       warnBoxOff();
       updatePoll();
     } else {

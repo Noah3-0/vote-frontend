@@ -10,7 +10,7 @@ const closePollBox = document.getElementById("close-poll-box");
 let account;
 let updatePollBool = false;
 let counterTx = 0;
-let gasPrice = 30000000;
+let gasPrice = 8000000;
 
 const ABI = [
   {

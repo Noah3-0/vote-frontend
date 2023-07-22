@@ -418,7 +418,7 @@ connectWallet.addEventListener("click", async (e) => {
       displayAccount();
     } else {
       warnBowOn();
-      connectWallet.innerHTML = "Wrong network.";
+      connectWallet.innerHTML = "Wrong network";
       await ethereum.request({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: "0x66eed" }],

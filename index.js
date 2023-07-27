@@ -394,7 +394,7 @@ const ABI = [
     type: "function",
   },
 ];
-const Address = "0x3DCe863Fa5fAEC626887e6f7Edc7000f5cF059a2";
+const Address = "0xe395B307D08959cDE10BD784403a37841aa0DdA7";
 
 connectWallet.addEventListener("click", async (e) => {
   e.preventDefault();
